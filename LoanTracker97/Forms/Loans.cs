@@ -13,29 +13,24 @@ namespace LoanTracker97.Forms
 {
     public partial class Loans : Form
     {
-        public OleDbConnection con = new OleDbConnection();
-
-
+        CommonClass cmd = new CommonClass();
         public Loans()
         {
-            //noOfPaymentsComboBox.SelectedItem = "1";
-            con.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=loantrackerdb.accdb";
             InitializeComponent();
         }
+        private void Loans_Load(object sender, EventArgs e)
+        {
+            // TODO: This line of code loads data into the 'loantrackerdbDataSet.LoanDetails' table. You can move, or remove it, as needed.
+            this.loanDetailsTableAdapter.Fill(this.loantrackerdbDataSet.LoanDetails);
 
-        private void button1_Click(object sender, EventArgs e)
+        }
+        private void btnFind_Click(object sender, EventArgs e)
         {
             try
             {
-                con.Open();
-
-                OleDbCommand cmd = new OleDbCommand();
-                cmd.Connection = con;
-                cmd.CommandText = "select * from Borrower where BorrowerID = '"+ borrowerIDTextBox .Text+ "'";
-
-                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
+                
+                string query = "select * from Borrower where BorrowerID = '" + borrowerIDTextBox.Text + "'";
+                DataTable dt = cmd.RetrieveData(query);
                 if (dt.Rows.Count > 0)
                 {
                     borrowerNameTextBox.Text = dt.Rows[0]["BorrowerName"].ToString();
@@ -45,15 +40,16 @@ namespace LoanTracker97.Forms
                 }
                 else
                 {
+                     borrowerNameTextBox.Text = "";
+                     departmentTextBox.Text   = "";
+                     investmentTextBox.Text   = "";
+                     ifMemberCheckBox.Checked = false;
+
                     MessageBox.Show("No Member Found!");
                 }
-
-
-                con.Close();
             }
             catch (Exception ex)
             {
-                con.Close();
                 MessageBox.Show("ERROR! " + ex.Message);
             }
         }
@@ -61,15 +57,28 @@ namespace LoanTracker97.Forms
         private void button2_Click(object sender, EventArgs e)
         {
             this.Hide();
-            con.Dispose();
             Forms.MainPage MainPage = new Forms.MainPage();
             MainPage.ShowDialog();
         }
-        private void Loans_Load(object sender, EventArgs e)
+        
+
+        private void btnSave_Click(object sender, EventArgs e)
         {
-            
+            if (ifMemberCheckBox.Checked == false && double.Parse(loanAmountTextBox.Text) > 10000)
+            {
+                MessageBox.Show("Loanable Amount for non-member shall be up to Php 10,000.00 only !");
+                return;
+            }
+
+
         }
 
-        
+        private void loanDetailsBindingNavigatorSaveItem_Click(object sender, EventArgs e)
+        {
+            this.Validate();
+            this.loanDetailsBindingSource.EndEdit();
+            this.tableAdapterManager.UpdateAll(this.loantrackerdbDataSet);
+
+        }
     }
 }

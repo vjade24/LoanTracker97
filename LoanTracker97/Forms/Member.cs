@@ -13,12 +13,9 @@ namespace LoanTracker97
 {
     public partial class Member : Form
     {
-        public OleDbConnection con = new OleDbConnection();
-        
+        CommonClass cmn = new CommonClass();
         public Member()
         {
-            con.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=loantrackerdb.accdb";
-            //con.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=G:\VJA\01 - Solutions\LoanTracker97\LoanTracker97\LoanTracker97\loantrackerdb.accdb";
             InitializeComponent();
         }
         
@@ -28,30 +25,13 @@ namespace LoanTracker97
         }
         private void LoadBorrower()
         {
-            btnSave.Enabled = true;
+            btnSave.Enabled   = true;
             btnDelete.Enabled = false;
             btnUpdate.Enabled = false;
 
-            try
-            {
-                con.Open();
-
-                OleDbCommand cmd = new OleDbCommand();
-                cmd.Connection = con;
-                cmd.CommandText = "select * from Borrower";
-
-                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                borrowerDataGridView.DataSource = dt;
-
-                con.Close();
-            }
-            catch (Exception ex)
-            {
-                con.Close();
-                MessageBox.Show("ERROR! " + ex.Message);
-            }
+            string query = "Select * from Borrower";
+            DataTable dt = cmn.RetrieveData(query);
+            borrowerDataGridView.DataSource = dt;
         }
         
         private void borrowerDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -78,12 +58,23 @@ namespace LoanTracker97
             btnDelete.Enabled = false;
             btnUpdate.Enabled = false;
         }
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            ClearTextboxex();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Forms.MainPage MainPage = new Forms.MainPage();
+            MainPage.ShowDialog();
+        }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             try
             {
-                if (double.Parse(investmentTextBox.Text) <= 5000)
+                if (double.Parse(investmentTextBox.Text) < 5000)
                 {
                     MessageBox.Show("Capital Requirements minimum is less-than 5,000.00");
                     return;
@@ -94,21 +85,23 @@ namespace LoanTracker97
                     return;
                 }
 
-                con.Open();
-                string sql = "insert into Borrower(BorrowerID,BorrowerName,Department,Investment,IfMember) values ('" + borrowerIDTextBox.Text + "' , '" + borrowerNameTextBox.Text + "', '" + departmentTextBox.Text + "', '" + investmentTextBox.Text + "', " + ifMemberCheckBox.Checked + ")";
-                OleDbCommand cmd = new OleDbCommand();
-                cmd.Connection = con;
-                cmd.CommandText = sql;
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Successfully Inserted");
-                con.Close();
+                // *********************************************************
+                // *** CreateUpdateDelete 2nd Parameter is the following ;**
+                // **** 1.) Insert - Insert Data from Database
+                // **** 2.) Update - Update Data from Database
+                // **** 3.) Delete - Delete Data from Database
+                // *********************************************************
+                string query = "insert into Borrower(BorrowerID,BorrowerName,Department,Investment,IfMember) values ('" + borrowerIDTextBox.Text + "' , '" + borrowerNameTextBox.Text + "', '" + departmentTextBox.Text + "', '" + investmentTextBox.Text + "', " + ifMemberCheckBox.Checked + ")";
+                string message = cmn.CreateUpdateDelete(query, "Insert");
+                MessageBox.Show(message);
+                // *********************************************************
+                // *********************************************************
 
                 LoadBorrower();
                 ClearTextboxex();
             }
             catch (Exception ex)
             {
-                con.Close();
                 MessageBox.Show("ERROR! " + ex.Message);
             }
         }
@@ -117,7 +110,7 @@ namespace LoanTracker97
         {
             try
             {
-                if (double.Parse(investmentTextBox.Text) <= 5000)
+                if (double.Parse(investmentTextBox.Text) < 5000)
                 {
                     MessageBox.Show("Capital Requirements minimum is less-than 5,000.00");
                     return;
@@ -128,59 +121,52 @@ namespace LoanTracker97
                     return;
                 }
 
-                con.Open();
-                string sql = "update Borrower set BorrowerName='" + borrowerNameTextBox.Text + "',Department='" + departmentTextBox.Text + "',Investment='" + investmentTextBox.Text + "',IfMember=" + ifMemberCheckBox.Checked + " where BorrowerID='" + borrowerIDTextBox.Text + "'";
-                OleDbCommand cmd = new OleDbCommand();
-                cmd.Connection = con;
-                cmd.CommandText = sql;
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Successfully Updated");
-                con.Close();
+                // *********************************************************
+                // *** CreateUpdateDelete 2nd Parameter is the following ;**
+                // **** 1.) Insert - Insert Data from Database
+                // **** 2.) Update - Update Data from Database
+                // **** 3.) Delete - Delete Data from Database
+                // *********************************************************
+                string query = "update Borrower set BorrowerName='" + borrowerNameTextBox.Text + "',Department='" + departmentTextBox.Text + "',Investment='" + investmentTextBox.Text + "',IfMember=" + ifMemberCheckBox.Checked + " where BorrowerID='" + borrowerIDTextBox.Text + "'";
+                string message = cmn.CreateUpdateDelete(query, "Update");
+                MessageBox.Show(message);
+                // *********************************************************
+                // *********************************************************
 
                 LoadBorrower();
                 ClearTextboxex();
             }
             catch (Exception ex)
             {
-                con.Close();
                 MessageBox.Show("ERROR! " + ex);
             }
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            ClearTextboxex();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
             try
             {
-                con.Open();
-                string sql = "delete from Borrower where BorrowerID='" + borrowerIDTextBox.Text + "'";
-                OleDbCommand cmd = new OleDbCommand();
-                cmd.Connection = con;
-                cmd.CommandText = sql;
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Successfully Deleted");
-                con.Close();
+                // *********************************************************
+                // *** CreateUpdateDelete 2nd Parameter is the following ;**
+                // **** 1.) Insert - Insert Data from Database
+                // **** 2.) Update - Update Data from Database
+                // **** 3.) Delete - Delete Data from Database
+                // *********************************************************
+                string query = "delete from Borrower where BorrowerID='" + borrowerIDTextBox.Text + "'";
+                string message = cmn.CreateUpdateDelete(query, "Delete");
+                MessageBox.Show(message);
+                // *********************************************************
+                // *********************************************************
 
                 LoadBorrower();
                 ClearTextboxex();
             }
             catch (Exception ex)
             {
-                con.Close();
                 MessageBox.Show("ERROR! " + ex);
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            con.Dispose();
-            Forms.MainPage MainPage = new Forms.MainPage();
-            MainPage.ShowDialog();
-        }
+        
     }
 }
