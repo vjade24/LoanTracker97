@@ -15,8 +15,10 @@ namespace LoanTracker97.Forms
     {
         public OleDbConnection con = new OleDbConnection();
 
+
         public Loans()
         {
+            //noOfPaymentsComboBox.SelectedItem = "1";
             con.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=loantrackerdb.accdb";
             InitializeComponent();
         }
@@ -56,11 +58,6 @@ namespace LoanTracker97.Forms
             }
         }
 
-        private void Loans_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -68,5 +65,11 @@ namespace LoanTracker97.Forms
             Forms.MainPage MainPage = new Forms.MainPage();
             MainPage.ShowDialog();
         }
+        private void Loans_Load(object sender, EventArgs e)
+        {
+            
+        }
+
+        
     }
 }

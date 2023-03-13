@@ -32,6 +32,7 @@
             System.Windows.Forms.Label borrowerNameLabel;
             System.Windows.Forms.Label departmentLabel;
             System.Windows.Forms.Label investmentLabel;
+            System.Windows.Forms.Label label1;
             this.borrowerIDTextBox = new System.Windows.Forms.TextBox();
             this.borrowerNameTextBox = new System.Windows.Forms.TextBox();
             this.departmentTextBox = new System.Windows.Forms.TextBox();
@@ -47,13 +48,14 @@
             borrowerNameLabel = new System.Windows.Forms.Label();
             departmentLabel = new System.Windows.Forms.Label();
             investmentLabel = new System.Windows.Forms.Label();
+            label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.borrowerDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // borrowerIDLabel
             // 
             borrowerIDLabel.AutoSize = true;
-            borrowerIDLabel.Location = new System.Drawing.Point(19, 130);
+            borrowerIDLabel.Location = new System.Drawing.Point(36, 130);
             borrowerIDLabel.Name = "borrowerIDLabel";
             borrowerIDLabel.Size = new System.Drawing.Size(66, 13);
             borrowerIDLabel.TabIndex = 1;
@@ -71,7 +73,7 @@
             // departmentLabel
             // 
             departmentLabel.AutoSize = true;
-            departmentLabel.Location = new System.Drawing.Point(19, 182);
+            departmentLabel.Location = new System.Drawing.Point(37, 182);
             departmentLabel.Name = "departmentLabel";
             departmentLabel.Size = new System.Drawing.Size(65, 13);
             departmentLabel.TabIndex = 5;
@@ -80,7 +82,7 @@
             // investmentLabel
             // 
             investmentLabel.AutoSize = true;
-            investmentLabel.Location = new System.Drawing.Point(19, 208);
+            investmentLabel.Location = new System.Drawing.Point(40, 208);
             investmentLabel.Name = "investmentLabel";
             investmentLabel.Size = new System.Drawing.Size(62, 13);
             investmentLabel.TabIndex = 7;
@@ -122,7 +124,6 @@
             this.ifMemberCheckBox.Name = "ifMemberCheckBox";
             this.ifMemberCheckBox.Size = new System.Drawing.Size(104, 24);
             this.ifMemberCheckBox.TabIndex = 10;
-            this.ifMemberCheckBox.Text = "Member";
             this.ifMemberCheckBox.UseVisualStyleBackColor = true;
             // 
             // borrowerDataGridView
@@ -187,11 +188,21 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(54, 236);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(48, 13);
+            label1.TabIndex = 17;
+            label1.Text = "Member:";
+            // 
             // Member
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnDelete);
