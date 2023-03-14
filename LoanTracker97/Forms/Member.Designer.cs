@@ -88,6 +88,15 @@
             investmentLabel.TabIndex = 7;
             investmentLabel.Text = "Investment:";
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(54, 236);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(48, 13);
+            label1.TabIndex = 17;
+            label1.Text = "Member:";
+            // 
             // borrowerIDTextBox
             // 
             this.borrowerIDTextBox.Location = new System.Drawing.Point(108, 127);
@@ -187,15 +196,6 @@
             this.button1.Text = "Go Back";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(54, 236);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(48, 13);
-            label1.TabIndex = 17;
-            label1.Text = "Member:";
             // 
             // Member
             // 
